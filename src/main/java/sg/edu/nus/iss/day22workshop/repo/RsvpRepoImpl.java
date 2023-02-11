@@ -76,11 +76,13 @@ public class RsvpRepoImpl {
 
     @Transactional
     public int[] batchInsert(List<RSVP> rsvp) {
+        // Use jdbcTemplate's batchUpdate method to insert multiple RSVP records in one batch
         return jdbcTemplate.batchUpdate(insertSQL, (BatchPreparedStatementSetter) new BatchPreparedStatementSetter() {
 
             // rsvp.getFullName(), rsvp.getEmail(), 
             // rsvp.getPhone(), rsvp.getConfirmationDate(), rsvp.getComments()
             public void setValues (PreparedStatement ps, int i) throws SQLException {
+                // Set the values for each individual RSVP record in the batch
                 ps.setString (1, rsvp.get(i).getFullName());
                 ps.setString(2, rsvp.get(i).getEmail());
                 ps.setInt(3, rsvp.get(i).getPhone());
@@ -89,6 +91,7 @@ public class RsvpRepoImpl {
             } 
 
             public int getBatchSize() {
+                // Return the number of RSVP records in the batch
                 return rsvp.size();
             }
         });
