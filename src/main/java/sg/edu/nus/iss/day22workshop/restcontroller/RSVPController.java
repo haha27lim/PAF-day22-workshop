@@ -54,7 +54,7 @@ public class RSVPController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping(path="/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> saveRSVP (@RequestBody RSVP rsvp) {
         try {
             RSVP r = rsvp;
@@ -83,13 +83,13 @@ public class RSVPController {
         if (result) {
             return new ResponseEntity<>("RSVP record updated successfully", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("RSVP record failed to update", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("RSVP record failed to update", HttpStatus.NOT_FOUND);
         }
         
     }
 
 
-    @GetMapping(value="/count")
+    @GetMapping(value="/count", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Integer> getRSVPCount() {
         Integer rsvpCount = rsvpRepo.countAll();
         
